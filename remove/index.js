@@ -1,12 +1,13 @@
 'use strict';
-
+var fileSystem = require('fs');
 var yeoman = require('yeoman-generator');
 var amgConfiguration = require('../libs/amg-configuration');
-var fileCreator = require('../libs/file-creator');
 var pluralize = require('pluralize');
 var rootModuleUpdater = require('../libs/root-module-updater');
 
-var AddGenerator = yeoman.generators.NamedBase.extend({
+
+
+var RemoveGenerator = yeoman.generators.NamedBase.extend({
   init: function () {
     var moduleType = this.name;
 
@@ -21,25 +22,14 @@ var AddGenerator = yeoman.generators.NamedBase.extend({
       console.log('Module name can\'t be empty');
       return;
     }
-
-
+    
     var moduleDirectory = pluralize.plural(moduleType);
-    fileCreator.createFile({
-      templateFilePath: __dirname + '/templates/' + moduleType +'.tmp',
-      destinationFilePath: moduleDirectory + '/' + moduleName + '-' + moduleType + '.js',
-      mappings: {
-        moduleName: moduleName
-      }
-    });
-
-    rootModuleUpdater.updateRootModule({
-      generatorDirectory: __dirname,
+    fileSystem.unlinkSync(moduleDirectory + '/' + moduleName + '-' + moduleType + '.js');
+    rootModuleUpdater.updateRootModule({ 
+      generatorDirectory: __dirname + '/../add',
       moduleType: moduleType
     });
-
-    console.log('Done!');
-
   }
 });
 
-module.exports = AddGenerator;
+module.exports = RemoveGenerator;
