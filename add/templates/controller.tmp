@@ -1,0 +1,15 @@
+(function(define){
+  'use strict';
+
+  var body = function($scope){
+    $scope.model = {
+    };
+  };
+
+  define(function(){
+    return {
+      name: '{{moduleName}}', 
+      body: ['$scope', body]
+    };
+  });
+})(window.define);

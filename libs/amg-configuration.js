@@ -1,5 +1,5 @@
 var TEMPLATE_FILES = {
-  controller: '../templates/controller.tmp',
+  controller: 'controller.tmp',
   directive: '',
   factory: '',
   filter: '',

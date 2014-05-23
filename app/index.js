@@ -1,12 +1,11 @@
 'use strict';
-// var util = require('util');
-// var path = require('path');
+
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var pluralize = require('pluralize');
 var chalk = require('chalk');
-var fileCreator = require('./file-creator');
-var amgConfiguration = require('../amg-configuration.js');
+var fileCreator = require('../libs/file-creator');
+var amgConfiguration = require('../libs/amg-configuration');
 
 var AmgGenerator = yeoman.generators.Base.extend({
   init: function () {
