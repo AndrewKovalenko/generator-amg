@@ -1,5 +1,5 @@
 var TEMPLATE_FILES = {
-  controller: 'controller.tmp',
+  controller: 'regular-module.tmp',
   directive: '',
   factory: '',
   filter: '',
@@ -8,3 +8,4 @@ var TEMPLATE_FILES = {
 
 
 exports.templateFiles = TEMPLATE_FILES;
+exports.rootJsDirectory = 'js';

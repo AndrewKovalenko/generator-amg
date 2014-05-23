@@ -23,12 +23,16 @@ var RemoveGenerator = yeoman.generators.NamedBase.extend({
       return;
     }
     
+    console.log(chalk.cyan('Updating root module for ' + chalk.green(moduleType)));
+
     var moduleDirectory = pluralize.plural(moduleType);
     fileSystem.unlinkSync(moduleDirectory + '/' + moduleName + '-' + moduleType + '.js');
     rootModuleUpdater.updateRootModule({ 
-      generatorDirectory: __dirname + '/../add',
+      generatorDirectory: __dirname + '/..',
       moduleType: moduleType
     });
+
+    this.log('Done!');
   }
 });
 

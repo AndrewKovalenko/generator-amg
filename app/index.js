@@ -6,6 +6,7 @@ var pluralize = require('pluralize');
 var chalk = require('chalk');
 var fileCreator = require('../libs/file-creator');
 var amgConfiguration = require('../libs/amg-configuration');
+var rootModuleUpdater = require('../libs/root-module-updater');
 
 var AmgGenerator = yeoman.generators.Base.extend({
   init: function () {
@@ -21,14 +22,12 @@ var AmgGenerator = yeoman.generators.Base.extend({
       }
     });
   },
-
   askFor: function () {
     var done = this.async();
 
     // have Yeoman greet the user
     this.log(this.yeoman);
 
-    // replace it with a short and sweet description of your generator
     this.log(chalk.magenta('Greetings form Angular Modules Generator :-)'));
 
     var prompts = [{
@@ -44,21 +43,30 @@ var AmgGenerator = yeoman.generators.Base.extend({
   },
 
   app: function () {
-    for (var moduleName in amgConfiguration.templateFiles) {
-      var pluralModuleName = pluralize.plural(moduleName);
+    for (var moduleType in amgConfiguration.templateFiles) {
+      var pluralModuleTypeName = pluralize.plural(moduleType);
 
-      this.mkdir(pluralModuleName);
-      this.copy(pluralModuleName + '-module.js');
+      this.mkdir(amgConfiguration.rootJsDirectory);
+      this.mkdir(amgConfiguration.rootJsDirectory + '/libs');
+      this.mkdir(amgConfiguration.rootJsDirectory + '/' + pluralModuleTypeName);
+      rootModuleUpdater.updateRootModule({
+        generatorDirectory: __dirname + '/..',
+        moduleType: moduleType,
+        rootJsDirectory: amgConfiguration.rootJsDirectory
+      });
     }
-    this.directory('config');
-    this.directory('utilities');
+    this.directory(amgConfiguration.rootJsDirectory + '/config');
+    this.directory(amgConfiguration.rootJsDirectory + '/utilities');
+
     fileCreator.createFile({
-      templateFilePath: __dirname + '/templates/entry-point.tmp',
-      destinationFilePath: 'entry-point.js',
+      templateFilePath: __dirname + '/../templates/entry-point.tmp',
+      destinationFilePath: amgConfiguration.rootJsDirectory + '/entry-point.js',
       mappings: {applicationName: this.newApplicationName}
     });
 
+    this.copy('_.bowerrc', '.bowerrc');
     this.copy('_bower.json', 'bower.json');
+    this.template('_index.html', 'index.html');
   },
 
   projectfiles: function () {

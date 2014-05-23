@@ -2,11 +2,11 @@
   'use strict';
 
   require.config({
-    baseUrl:'javascript',
+    baseUrl: 'js',
 
     paths:{
-      'angular': 'http://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min',
-      'angular-ui-router': 'http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min'
+      'angular': 'libs/angular/angular',
+      'angular-ui-router': 'libs/angular-ui-router/release/angular-ui-router'
     },
 
     shim:{
