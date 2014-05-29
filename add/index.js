@@ -27,8 +27,8 @@ var AddGenerator = yeoman.generators.NamedBase.extend({
 
     var moduleDirectory = pluralize.plural(moduleType);
     fileCreator.createFile({
-      templateFilePath: __dirname + '../templates/' + amgConfiguration.templateFiles[moduleType];
-      destinationFilePath: moduleDirectory + '/' + moduleName + '-' + moduleType + '.js',
+      templateFilePath: __dirname + '/../templates/' + amgConfiguration.templateFiles[moduleType],
+      destinationFilePath: amgConfiguration.rootJsDirectory + '/' + moduleDirectory + '/' + moduleName + '-' + moduleType + '.js',
       mappings: {
         moduleName: moduleName
       }
@@ -38,7 +38,8 @@ var AddGenerator = yeoman.generators.NamedBase.extend({
 
     rootModuleUpdater.updateRootModule({
       generatorDirectory: __dirname + '/..',
-      moduleType: moduleType
+      moduleType: moduleType,
+      rootJsDirectory: amgConfiguration.rootJsDirectory
     });
 
     this.log('Done!');
