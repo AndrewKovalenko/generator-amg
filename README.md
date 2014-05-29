@@ -1,4 +1,5 @@
-# generator-amg [![Build Status](https://secure.travis-ci.org/AndrewKovalenko/generator-amg.png?branch=master)](https://travis-ci.org/AndrewKovalenko/generator-amg)
+# generator-amg 
+![logo](https://raw.githubusercontent.com/AndrewKovalenko/generator-amg/master/logo.jpg)
 
 > [Yeoman](http://yeoman.io) generator
 
