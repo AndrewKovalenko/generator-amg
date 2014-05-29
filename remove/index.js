@@ -1,4 +1,6 @@
 'use strict';
+
+var chalk = require('chalk');
 var fileSystem = require('fs');
 var yeoman = require('yeoman-generator');
 var amgConfiguration = require('../libs/amg-configuration');
@@ -22,14 +24,17 @@ var RemoveGenerator = yeoman.generators.NamedBase.extend({
       console.log('Module name can\'t be empty');
       return;
     }
-    
-    console.log(chalk.cyan('Updating root module for ' + chalk.green(moduleType)));
 
     var moduleDirectory = pluralize.plural(moduleType);
-    fileSystem.unlinkSync(moduleDirectory + '/' + moduleName + '-' + moduleType + '.js');
+
+    console.log(chalk.cyan('Updating root module for ' + chalk.green(moduleDirectory)));
+    
+    fileSystem.unlinkSync(amgConfiguration.rootJsDirectory + '/' + moduleDirectory + '/' + moduleName + '-' + moduleType + '.js');
+
     rootModuleUpdater.updateRootModule({ 
       generatorDirectory: __dirname + '/..',
-      moduleType: moduleType
+      moduleType: moduleType,
+      rootJsDirectory: amgConfiguration.rootJsDirectory
     });
 
     this.log('Done!');
