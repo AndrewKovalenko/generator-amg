@@ -1,8 +1,12 @@
 # generator-amg 
 ![logo](https://raw.githubusercontent.com/AndrewKovalenko/generator-amg/master/logo.jpg)
 
-> [Yeoman](http://yeoman.io) generator
+## What is this?
 
+This is [Yeoman](http://yeoman.io) generator which allow you to create and manage front-end application based on [angularjs](https://angularjs.org/) and [requirejs](http://requirejs.org/)  
+
+#####This generator is in **ALPHA TEST**! 
+**So possibly it has some bugs!** Feel free to notify me about bugs which you've found and I'll fix them ASAP.
 
 ## Getting Started
 
