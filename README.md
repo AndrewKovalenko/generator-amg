@@ -3,7 +3,7 @@
 
 ## What is this?
 
-This is [Yeoman](http://yeoman.io) generator which allow you to create and manage front-end application based on [angularjs](https://angularjs.org/) and [requirejs](http://requirejs.org/)  
+This is [Yeoman](http://yeoman.io) generator which allow you to create and manage front-end application based on [angularjs](https://angularjs.org/) and [requirejs](http://requirejs.org/). I took [this template](https://github.com/AndrewKovalenko/AngularJs-Application-Template) as basic idea of this application archiecture.
 
 #####This generator is in **ALPHA TEST**! 
 **So possibly it has some bugs!** Feel free to notify me about bugs which you've found and I'll fix them ASAP.
