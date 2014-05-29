@@ -1,49 +1,46 @@
 'use strict';
 
 var yeoman = require('yeoman-generator');
-var amgConfiguration = require('../libs/amg-configuration');
-var fileCreator = require('../libs/file-creator');
-var pluralize = require('pluralize');
-var rootModuleUpdater = require('../libs/root-module-updater');
+var configuration = require('../libs/configuration');
 var chalk = require('chalk');
+var core = require('../libs/core');
+var path = require('path');
 
 var AddGenerator = yeoman.generators.NamedBase.extend({
   init: function () {
     var moduleType = this.name;
 
-    if(!moduleType || !amgConfiguration.templateFiles[moduleType]) {
+    if(!moduleType || configuration.moduleTypes.indexOf(moduleType) === -1) {
       console.error(chalk.red('No such module'));
       return;
     }
 
     var moduleName = this.args[1];
 
-    if(!moduleName || moduleName == '') {
+    if(!moduleName || moduleName === '') {
       console.error(chalk.red('Module name can\'t be empty'));
       return;
     }
 
     console.log(chalk.cyan('Creating body of ' + chalk.green(moduleName)));
 
-    var moduleDirectory = pluralize.plural(moduleType);
-    fileCreator.createFile({
-      templateFilePath: __dirname + '/../templates/' + amgConfiguration.templateFiles[moduleType],
-      destinationFilePath: amgConfiguration.rootJsDirectory + '/' + moduleDirectory + '/' + moduleName + '-' + moduleType + '.js',
-      mappings: {
-        moduleName: moduleName
-      }
+    core.addFileToModule({
+      yeomanGenerator: this,
+      moduleType: moduleType,
+      moduleName: moduleName,
+      rootJsDirectory: configuration.rootJsDirectory
     });
 
     console.log(chalk.cyan('Updating root module for ' + chalk.green(moduleType)));
 
-    rootModuleUpdater.updateRootModule({
-      generatorDirectory: __dirname + '/..',
+    core.updateModuleFilesList({
       moduleType: moduleType,
-      rootJsDirectory: amgConfiguration.rootJsDirectory
+      rootJsDirectory: configuration.rootJsDirectory,
+      yeomanGenerator: this,
+      generatorDirectory: path.join(__dirname, '/..'),
     });
 
     this.log('Done!');
-
   }
 });
 

@@ -1,11 +1,11 @@
 'use strict';
 
 var chalk = require('chalk');
-var fileSystem = require('fs');
 var yeoman = require('yeoman-generator');
-var amgConfiguration = require('../libs/amg-configuration');
+var configuration = require('../libs/configuration');
 var pluralize = require('pluralize');
-var rootModuleUpdater = require('../libs/root-module-updater');
+var core  = require('../libs/core');
+var path = require('path');
 
 
 
@@ -13,14 +13,14 @@ var RemoveGenerator = yeoman.generators.NamedBase.extend({
   init: function () {
     var moduleType = this.name;
 
-    if(!moduleType || !amgConfiguration.templateFiles[moduleType]) {
+    if(!moduleType || configuration.moduleTypes.indexOf(moduleType) === -1) {
       console.error('No such module');
       return;
     }
 
     var moduleName = this.args[1];
 
-    if(!moduleName || moduleName == '') {
+    if(!moduleName || moduleName === '') {
       console.log('Module name can\'t be empty');
       return;
     }
@@ -29,12 +29,17 @@ var RemoveGenerator = yeoman.generators.NamedBase.extend({
 
     console.log(chalk.cyan('Updating root module for ' + chalk.green(moduleDirectory)));
     
-    fileSystem.unlinkSync(amgConfiguration.rootJsDirectory + '/' + moduleDirectory + '/' + moduleName + '-' + moduleType + '.js');
-
-    rootModuleUpdater.updateRootModule({ 
-      generatorDirectory: __dirname + '/..',
+    core.removeFileFromModule({
       moduleType: moduleType,
-      rootJsDirectory: amgConfiguration.rootJsDirectory
+      moduleName: moduleName,
+      rootJsDirectory: configuration.rootJsDirectory
+    });
+
+    core.updateModuleFilesList({
+      moduleType: moduleType,
+      rootJsDirectory: configuration.rootJsDirectory,
+      yeomanGenerator: this,
+      generatorDirectory: path.join(__dirname, '/..'),
     });
 
     this.log('Done!');

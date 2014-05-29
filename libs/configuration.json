@@ -1,0 +1,11 @@
+{
+  "moduleTypes": [
+    "controller", 
+    "directive", 
+    "factory",
+    "filter",
+    "service"
+  ],
+
+  "rootJsDirectory": "js"
+}

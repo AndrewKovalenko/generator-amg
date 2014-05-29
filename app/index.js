@@ -2,11 +2,8 @@
 
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
-var pluralize = require('pluralize');
-var chalk = require('chalk');
-var fileCreator = require('../libs/file-creator');
-var amgConfiguration = require('../libs/amg-configuration');
-var rootModuleUpdater = require('../libs/root-module-updater');
+var core = require('../libs/core');
+var configuration = require('../libs/configuration');
 
 var AmgGenerator = yeoman.generators.Base.extend({
   init: function () {
@@ -25,48 +22,28 @@ var AmgGenerator = yeoman.generators.Base.extend({
   askFor: function () {
     var done = this.async();
 
-    // have Yeoman greet the user
     this.log(this.yeoman);
 
     this.log(chalk.magenta('Greetings form Angular Modules Generator :-)'));
 
     var prompts = [{
-      name: 'newApplicationName',
+      name: 'applicationName',
       message: 'How do you want to name your new application?'
     }];
 
     this.prompt(prompts, function (props) {
-      this.newApplicationName = props.newApplicationName;
+      this.applicationName = props.applicationName;
 
       done();
     }.bind(this));
   },
 
   app: function () {
-    for (var moduleType in amgConfiguration.templateFiles) {
-      var pluralModuleTypeName = pluralize.plural(moduleType);
-
-      this.mkdir(amgConfiguration.rootJsDirectory);
-      this.mkdir(amgConfiguration.rootJsDirectory + '/libs');
-      this.mkdir(amgConfiguration.rootJsDirectory + '/' + pluralModuleTypeName);
-      rootModuleUpdater.updateRootModule({
-        generatorDirectory: __dirname + '/..',
-        moduleType: moduleType,
-        rootJsDirectory: amgConfiguration.rootJsDirectory
-      });
-    }
-    this.directory(__dirname + '/../templates/config', amgConfiguration.rootJsDirectory + '/config');
-    this.directory(__dirname + '/../templates/utilities', amgConfiguration.rootJsDirectory + '/utilities');
-
-    fileCreator.createFile({
-      templateFilePath: __dirname + '/../templates/entry-point.tmp',
-      destinationFilePath: amgConfiguration.rootJsDirectory + '/entry-point.js',
-      mappings: {applicationName: this.newApplicationName}
+    core.initializeApplicationInfrastructure({
+      moduleTypes: configuration.moduleTypes,
+      rootJsDirectory: configuration.rootJsDirectory,
+      yeomanGenerator: this
     });
-
-    this.copy('_.bowerrc', '.bowerrc');
-    this.copy('_bower.json', 'bower.json');
-    this.template('_index.html', 'index.html');
   },
 
   projectfiles: function () {

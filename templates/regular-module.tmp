@@ -8,7 +8,7 @@
 
   define(function(){
     return {
-      name: '{{moduleName}}', 
+      name: '<%= module.moduleName %>', 
       body: ['$scope', body]
     };
   });

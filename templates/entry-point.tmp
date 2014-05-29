@@ -22,7 +22,7 @@
 
   var applicationStartModule = function(angular, routingConfiguration) {
     angular.element(document).ready(function() {
-      var {{applicationName}} = angular.module("{{applicationName}}", 
+      var <%= applicationName %> = angular.module("<%= applicationName %>", 
                                                ["ui.router",
                                                  "app.controllers",
                                                  "app.directives",
@@ -30,8 +30,8 @@
                                                  "app.services",
                                                  "app.filters"
                                                ]);
-                                               {{applicationName}}.config(routingConfiguration);
-                                               angular.bootstrap(document, ['{{applicationName}}']);
+                                               <%= applicationName %>.config(routingConfiguration);
+                                               angular.bootstrap(document, ['<%= applicationName %>']);
 
     });
   };
