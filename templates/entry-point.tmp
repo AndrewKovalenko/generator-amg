@@ -30,7 +30,7 @@
                                                  "app.services",
                                                  "app.filters"
                                                ]);
-                                               demoApplication.config(routingConfiguration);
+                                               {{applicationName}}.config(routingConfiguration);
                                                angular.bootstrap(document, ['{{applicationName}}']);
 
     });

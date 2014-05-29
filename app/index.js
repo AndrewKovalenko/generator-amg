@@ -55,8 +55,8 @@ var AmgGenerator = yeoman.generators.Base.extend({
         rootJsDirectory: amgConfiguration.rootJsDirectory
       });
     }
-    this.directory(amgConfiguration.rootJsDirectory + '/config');
-    this.directory(amgConfiguration.rootJsDirectory + '/utilities');
+    this.directory(__dirname + '/../templates/config', amgConfiguration.rootJsDirectory + '/config');
+    this.directory(__dirname + '/../templates/utilities', amgConfiguration.rootJsDirectory + '/utilities');
 
     fileCreator.createFile({
       templateFilePath: __dirname + '/../templates/entry-point.tmp',
