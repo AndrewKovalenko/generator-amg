@@ -9,7 +9,7 @@ This is [Yeoman](http://yeoman.io) generator which allow you to create and manag
 **So possibly it has some bugs!** Feel free to notify me about bugs which you've found and I'll fix them ASAP.
 
 ## Generated application structure
-
+```
 .
 ├── index.html
 ├── bower.json
@@ -30,7 +30,7 @@ This is [Yeoman](http://yeoman.io) generator which allow you to create and manag
     ├── 
     |   └── module-factory.js
     └── entry-point.js
-
+```
 #### How to use?
 To add new controller type in console `yo amg:add controller some`
 and just start writing your code in js/controllers/some-controller.js
