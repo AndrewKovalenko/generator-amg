@@ -27,7 +27,7 @@ This is [Yeoman](http://yeoman.io) generator which allow you to create and manag
     ├── libs
     ├── config
     |   └── routing-cinfiguration.js
-    ├── 
+    ├── utilities
     |   └── module-factory.js
     └── entry-point.js
 ```
