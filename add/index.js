@@ -5,9 +5,10 @@ var configuration = require('../libs/configuration');
 var chalk = require('chalk');
 var core = require('../libs/core');
 var path = require('path');
+var pluralize = require('pluralize');
 
 var AddGenerator = yeoman.generators.NamedBase.extend({
-  init: function () {
+  app: function() {
     var moduleType = this.name;
 
     if(!moduleType || configuration.moduleTypes.indexOf(moduleType) === -1) {
@@ -31,7 +32,13 @@ var AddGenerator = yeoman.generators.NamedBase.extend({
       rootJsDirectory: configuration.rootJsDirectory
     });
 
-    console.log(chalk.cyan('Updating root module for ' + chalk.green(moduleType)));
+
+  }, 
+
+  update: function() {
+    var moduleType = this.name;
+
+    console.log(chalk.cyan('Updating root module for ' + chalk.green(pluralize.plural(moduleType))));
 
     core.updateModuleFilesList({
       moduleType: moduleType,
@@ -39,8 +46,6 @@ var AddGenerator = yeoman.generators.NamedBase.extend({
       yeomanGenerator: this,
       generatorDirectory: path.join(__dirname, '/..'),
     });
-
-    this.log('Done!');
   }
 });
 

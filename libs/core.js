@@ -3,16 +3,25 @@
 var path = require('path');
 var pluralize = require('pluralize');
 var fileSystem = require('fs');
+var fileSystemReader = require('./file-system-reader');
 
 var updateModuleFilesList = function(parameters) {
   var moduleName = pluralize.plural(parameters.moduleType);
 
+  var templatePath = path.join(parameters.generatorDirectory, 'templates/root-module.tmp');
+  var destinationFilePath = path.join(parameters.rootJsDirectory, moduleName + '-module.js');
+
+  if(fileSystem.existsSync(destinationFilePath)){
+    fileSystem.unlinkSync(destinationFilePath);
+  }
+
   //TODO update this code to read filenames recursively
-  var exsistingModules = fileSystem.readdirSync(path.join(parameters.rootJsDirectory, moduleName));
+  var exsistingModules = fileSystemReader.readFileTree(path.join(parameters.rootJsDirectory, moduleName));
 
   var rootModuleDependencies = exsistingModules.map(function(module) {
-    var fileName = module.substr(0, module.lastIndexOf('.'));
-    return '    \'' + moduleName + '/' + fileName + '\'';
+    var fullFileName = module.substr(0, module.lastIndexOf('.'));
+    var relativeFileName = path.relative(parameters.rootJsDirectory, fullFileName);
+    return '    \'' + relativeFileName + '\'';
   });
 
   var dependenciesString = (rootModuleDependencies.length > 0) ? 
@@ -24,9 +33,6 @@ var updateModuleFilesList = function(parameters) {
     moduleType: parameters.moduleType,
     moduleName: moduleName
   };
-
-  var templatePath = path.join(parameters.generatorDirectory, 'templates/root-module.tmp');
-  var destinationFilePath = path.join(parameters.rootJsDirectory, moduleName + '-module.js');
 
   parameters.yeomanGenerator.template(templatePath, destinationFilePath);
 };
@@ -66,13 +72,7 @@ var initializeApplicationInfrastructure = function(parameters) {
   parameters.moduleTypes.forEach(function(moduleType) {
     initializeModuleType({
       moduleType: moduleType,
-      rootJsDirectory: parameters.rootJsDirectory,
-      yeomanGenerator: parameters.yeomanGenerator
-    });
-  });
-
-  initializeApplicationConfigAndUtilities({ 
-    rootJsDirectory: parameters.rootJsDirectory,
+      rootJsDirectory: parameters.rootJsDirectory, yeomanGenerator: parameters.yeomanGenerator }); }); initializeApplicationConfigAndUtilities({ rootJsDirectory: parameters.rootJsDirectory,
     yeomanGenerator: parameters.yeomanGenerator
   });
 
@@ -81,7 +81,7 @@ var initializeApplicationInfrastructure = function(parameters) {
 var removeFileFromModule = function(parameters) {
   var moduleDirectory = pluralize.plural(parameters.moduleType);
   var fileToDelete = path.join(parameters.rootJsDirectory, moduleDirectory, parameters.moduleName + '-' + parameters.moduleType + '.js');
-    fileSystem.unlinkSync(fileToDelete);
+  fileSystem.unlinkSync(fileToDelete);
 };
 
 var addFileToModule = function(parameters) {
