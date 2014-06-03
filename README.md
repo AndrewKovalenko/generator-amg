@@ -32,6 +32,11 @@ This is [Yeoman](http://yeoman.io) generator which allow you to create and manag
     └── entry-point.js
 ```
 #### How to use?
+
+1. Create directory for your angular application `mkdir someApp`
+2. Create amg application `cd someApp && yo amg`
+3. Enter application name
+
 To add new controller type in console `yo amg:add controller some`
 and just start writing your code in js/controllers/some-controller.js
 
