@@ -42,6 +42,13 @@ and just start writing your code in js/controllers/some-controller.js
 
 `yo amg:remove controller some` allows you to delete your exsisting controller.
 
+For now *amg* can generate:
+* controllers
+* services
+* factoriess
+* filters
+* directives
+
 
 ## Getting Started
 
