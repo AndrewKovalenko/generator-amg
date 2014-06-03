@@ -13,7 +13,7 @@ function readFileTree (parameters) {
     if(item[0] === '.') {
       return; 
     }
-    
+
     var stats = fileSystem.statSync(path.join(currentDirectory, item));
 
     if(stats.isDirectory()){
@@ -36,6 +36,23 @@ var readFileTreeRecurcively = function(rootDirectory) {
   });
 };
 
+var getPathRelativeToRootJsDirectory = function(parameters) {
+  var prefix = '';
+
+  do {
+    if(fileSystem.existsSync(path.join(prefix, parameters.rootJsDirectory, 'entry-point.js'))){
+      return path.join(prefix, parameters.rootJsDirectory);
+    }
+
+    prefix = path.join(prefix, '..');
+
+  } while (path.resolve(prefix) !== '/');
+
+  throw new Error('Amg application not found.');
+
+};
+
 module.exports = {
-  readFileTree: readFileTreeRecurcively
+  readFileTree: readFileTreeRecurcively,
+  getPathRelativeToRootJsDirectory: getPathRelativeToRootJsDirectory
 };
