@@ -48,7 +48,7 @@ var getPathRelativeToRootJsDirectory = function(parameters) {
 
   } while (path.resolve(prefix) !== '/');
 
-  throw new Error('Amg application not found.');
+  return parameters.rootJsDirectory;
 
 };
 
