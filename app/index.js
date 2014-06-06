@@ -41,7 +41,6 @@ var AmgGenerator = yeoman.generators.Base.extend({
   app: function () {
     core.initializeApplicationInfrastructure({
       moduleTypes: configuration.moduleTypes,
-      rootJsDirectory: configuration.rootJsDirectory,
       yeomanGenerator: this
     });
   },

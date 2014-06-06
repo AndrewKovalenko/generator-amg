@@ -5,8 +5,8 @@
     baseUrl: 'js',
 
     paths:{
-      'angular': 'libs/angular/angular',
-      'angular-ui-router': 'libs/angular-ui-router/release/angular-ui-router'
+      'angular': 'libs/vendors/angular/angular',
+      'angular-ui-router': 'libs/vendors/angular-ui-router/release/angular-ui-router'
     },
 
     shim:{

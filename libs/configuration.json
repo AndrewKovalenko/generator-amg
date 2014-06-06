@@ -7,5 +7,6 @@
     "service"
   ],
 
-  "rootJsDirectory": "js"
+  "rootJsDirectory": "js",
+  "sourcesDirectory": "sources"
 }

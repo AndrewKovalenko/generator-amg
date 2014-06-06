@@ -1,0 +1,14 @@
+{
+  "debug": { 
+    "options" : {
+      "port": 3000,
+      "base": "<%= debugWebBuildDirectory %>",
+      "debug": true,
+      "keepalive": true,
+      "open": { 
+        "target": "http://127.0.0.1:3000/"
+      }
+    }
+  }
+}
+

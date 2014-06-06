@@ -28,8 +28,7 @@ var AddGenerator = yeoman.generators.NamedBase.extend({
     core.addFileToModule({
       yeomanGenerator: this,
       moduleType: moduleType,
-      moduleName: moduleName,
-      rootJsDirectory: configuration.rootJsDirectory
+      moduleName: moduleName
     });
 
 
@@ -42,9 +41,8 @@ var AddGenerator = yeoman.generators.NamedBase.extend({
 
     core.updateModuleFilesList({
       moduleType: moduleType,
-      rootJsDirectory: configuration.rootJsDirectory,
       yeomanGenerator: this,
-      generatorDirectory: path.join(__dirname, '/..'),
+      generatorDirectory: path.join(__dirname, '/..')
     });
   }
 });

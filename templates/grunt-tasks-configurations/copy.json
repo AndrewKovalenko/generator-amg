@@ -1,0 +1,13 @@
+{
+  "debug": {
+    "files": [
+      {
+      "expand": true,
+      "cwd": "sources",
+      "src": ["**"],
+      "dest": "<%= debugWebBuildDirectory %>"
+    }
+    ]
+
+  }
+}

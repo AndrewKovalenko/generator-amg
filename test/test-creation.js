@@ -21,12 +21,24 @@ describe('amg generator', function () {
     var expected = [
       // add files you expect to exist here.
       '.jshintrc',
-      '.editorconfig'
+      '.gitignore',
+      'Gruntfile.js',
+      'grunt-tasks-configurations/connect.json',
+      'grunt-tasks-configurations/copy.json',
+      'sources/index.html',
+      'sources/.jshintrc',
+      'sources/js/controllers-module.js',
+      'sources/js/directives-module.js',
+      'sources/js/factories-module.js',
+      'sources/js/services-module.js',
+      'sources/js/filters-module.js',
+      'sources/js/config/routing-configuration.js'
     ];
 
     helpers.mockPrompt(this.app, {
-      'someOption': true
+      'applicationName': 'testApplication'
     });
+
     this.app.options['skip-install'] = true;
     this.app.run({}, function () {
       helpers.assertFile(expected);
