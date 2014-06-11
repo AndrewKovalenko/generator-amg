@@ -11,12 +11,14 @@ var AmgGenerator = yeoman.generators.Base.extend({
 
     this.on('end', function () {
       if (!this.options['skip-install']) {
-        console.log(chalk.cyan('Installing Bower dependencies...'));
+        console.log(chalk.cyan('Installing dependencies...'));
 
-        this.bowerInstall([], {}, function () {
-          console.log(chalk.cyan('Dependencies installed!'));
+        this.installDependencies({
+          callback: function() {
+            console.log(chalk.cyan('Dependencies installed!'));
+          }
         });
-      }
+      }  
     });
   },
   askFor: function () {

@@ -6,16 +6,16 @@
 
     paths:{
       'angular': 'libs/vendors/angular/angular',
-      'angular-ui-router': 'libs/vendors/angular-ui-router/release/angular-ui-router'
+      'angularUiRouter': 'libs/vendors/angular-ui-router/release/angular-ui-router'
     },
 
     shim:{
       'angular':{
         exports: 'angular'
       },
-      'angular-ui-router': {
+      'angularUiRouter': {
         deps:['angular'],
-        exports: 'angular-ui-router'
+        exports: 'angularUiRouter'
       }
     }
   });
@@ -43,6 +43,6 @@
           'factories-module',
           'services-module',
           'filters-module',
-          'angular-ui-router'],
+          'angularUiRouter'],
           applicationStartModule );
 })(window.require);

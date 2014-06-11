@@ -1,0 +1,26 @@
+{
+  "release": {
+    "options": {
+      "baseUrl": "sources/js",
+
+      "paths":{
+        "angular":"libs/vendors/angular/angular",
+        "angularUiRouter": "libs/vendors/angular-ui-router/release/angular-ui-router"
+      },
+
+      "shim":{
+        "angular":{
+          "exports": "angular"
+        },
+        "angular-ui-router": {
+          "deps":["angular"],
+          "exports": "angular-ui-router"
+        }
+      },
+      "exclude": ["libs/vendors/requirejs/require.js"],
+
+      "name": "entry-point",
+      "out": "<%= deploymentDirectory %>/web/js/entry-point.js"
+    }
+  }
+ }
