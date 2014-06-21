@@ -34,7 +34,7 @@ var AddGenerator = yeoman.generators.NamedBase.extend({
 
   }, 
 
-  update: function() {
+  updateRootModuleDependencies: function() {
     var moduleType = this.name;
 
     console.log(chalk.cyan('Updating root module for ' + chalk.green(pluralize.plural(moduleType))));
@@ -44,7 +44,9 @@ var AddGenerator = yeoman.generators.NamedBase.extend({
       yeomanGenerator: this,
       generatorDirectory: path.join(__dirname, '/..')
     });
+
+
   }
-});
+ });
 
 module.exports = AddGenerator;

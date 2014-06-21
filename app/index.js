@@ -1,9 +1,9 @@
 'use strict';
 
-var yeoman = require('yeoman-generator');
-var chalk = require('chalk');
-var core = require('../libs/core');
-var configuration = require('../libs/configuration');
+var yeoman = require('yeoman-generator'),
+chalk = require('chalk'),
+core = require('../libs/core'),
+configuration = require('../libs/configuration');
 
 var AmgGenerator = yeoman.generators.Base.extend({
   init: function () {
@@ -28,10 +28,12 @@ var AmgGenerator = yeoman.generators.Base.extend({
 
     this.log(chalk.magenta('Greetings form Angular Modules Generator :-)'));
 
-    var prompts = [{
+    var prompts = [
+      {
       name: 'applicationName',
       message: 'How do you want to name your new application?'
-    }];
+    }
+    ];
 
     this.prompt(prompts, function (props) {
       this.applicationName = props.applicationName;
@@ -40,14 +42,21 @@ var AmgGenerator = yeoman.generators.Base.extend({
     }.bind(this));
   },
 
-  app: function () {
-    core.initializeApplicationInfrastructure({
-      moduleTypes: configuration.moduleTypes,
+  initializeApplicationStructure: function () {
+    core.initializeApplicationStructure({
       yeomanGenerator: this
     });
   },
 
-  projectfiles: function () {
+  initializeApplicationModules: function() {
+    var self = this;
+
+    configuration.moduleTypes.forEach(function(moduleType) {
+      core.initializeModuleType({
+        moduleType: moduleType,
+        yeomanGenerator: self
+      }); 
+    }); 
   }
 });
 

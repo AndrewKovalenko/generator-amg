@@ -1,48 +1,37 @@
-(function (require, undefined) {
+(function (require) {
   'use strict';
 
-  require.config({
-    baseUrl: 'js',
+  var applicationEntryPoint = function(requireConfiguration) {
+    requireConfiguration.initialize();
 
-    paths:{
-      'angular': 'libs/vendors/angular/angular',
-      'angularUiRouter': 'libs/vendors/angular-ui-router/release/angular-ui-router'
-    },
+    require([
+      'angular',
+      '<%= applicationName %>/config/routing-configuration',
+      '<%= applicationName %>/controllers-module',
+      '<%= applicationName %>/directives-module',
+      '<%= applicationName %>/factories-module',
+      '<%= applicationName %>/services-module',
+      '<%= applicationName %>/filters-module',
+      'utilities/sandbox',
+      'angularUiRouter'
+    ],
+    function(angular, routingConfiguration) {
+      angular.element(document).ready(function() {
+        var entryPointModule = angular.module('<%= applicationName %>', 
+                                              ['ui.router',
+                                                'sandbox',
+                                                '<%= applicationName %>.controllers',
+                                                '<%= applicationName %>.directives',
+                                                '<%= applicationName %>.services',
+                                                '<%= applicationName %>.filters',
+                                                '<%= applicationName %>.factories'
+                                              ]);
+                                              entryPointModule.config(routingConfiguration);
+                                              angular.bootstrap(document, ['<%= applicationName %>']);
 
-    shim:{
-      'angular':{
-        exports: 'angular'
-      },
-      'angularUiRouter': {
-        deps:['angular'],
-        exports: 'angularUiRouter'
-      }
-    }
-  });
-
-  var applicationStartModule = function(angular, routingConfiguration) {
-    angular.element(document).ready(function() {
-      var <%= applicationName %> = angular.module("<%= applicationName %>", 
-                                               ["ui.router",
-                                                 "app.controllers",
-                                                 "app.directives",
-                                                 "app.factories",
-                                                 "app.services",
-                                                 "app.filters"
-                                               ]);
-                                               <%= applicationName %>.config(routingConfiguration);
-                                               angular.bootstrap(document, ['<%= applicationName %>']);
-
+      });
     });
   };
 
-  require(['angular',
-          'config/routing-configuration',
-          'controllers-module',
-          'directives-module',
-          'factories-module',
-          'services-module',
-          'filters-module',
-          'angularUiRouter'],
-          applicationStartModule );
+  require(['config/requirejs-configuration'], applicationEntryPoint);
 })(window.require);

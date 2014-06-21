@@ -1,14 +1,14 @@
 {
   "name": "generator-amg",
-  "version": "0.1.0",
-  "description": "Yeoman generator",
-  "license": "MIT",
+  "version": "0.1.1",
+  "description": "Yeoman generator for AngularJs application",
+  "license": "",
   "main": "app/index.js",
-  "repository": "AndrewKovalenko/generator-amg",
+  "repository": "https://github.com/AndrewKovalenko/generator-amg.git",
   "author": {
     "name": "Andrew Kovalenko",
     "email": "mr.kovalenko.a.o@gmail.com",
-    "url": "https://github.com/AndrewKovalenko"
+    "url": ""
   },
   "engines": {
     "node": ">=0.10.0"
@@ -28,7 +28,9 @@
     "angular",
     "angularjs",
     "front-end",
-    "architecture"
+    "architecture",
+    "dependency injection",
+    "requirejs angular"
   ],
   "dependencies": {
     "yeoman-generator": "~0.16.0",

@@ -28,12 +28,19 @@ var RemoveGenerator = yeoman.generators.NamedBase.extend({
     var moduleDirectory = pluralize.plural(moduleType);
 
     console.log(chalk.cyan('Updating root module for ' + chalk.green(moduleDirectory)));
-    
+
     core.removeFileFromModule({
       moduleType: moduleType,
       moduleName: moduleName,
       rootJsDirectory: configuration.rootJsDirectory
     });
+  },
+
+  deleteFile: function() {
+ },
+
+  updateRootModuleDependencies: function() {
+    var moduleType = this.name;
 
     core.updateModuleFilesList({
       moduleType: moduleType,
@@ -41,8 +48,6 @@ var RemoveGenerator = yeoman.generators.NamedBase.extend({
       yeomanGenerator: this,
       generatorDirectory: path.join(__dirname, '/..'),
     });
-
-    this.log('Done!');
   }
 });
 

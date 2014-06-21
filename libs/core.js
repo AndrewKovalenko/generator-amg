@@ -1,16 +1,87 @@
 'use strict';
 
-var path = require('path');
-var pluralize = require('pluralize');
-var fileSystem = require('fs');
-var fileSystemExtensions = require('./file-system-extensions');
+var path = require('path'),
+pluralize = require('pluralize'),
+fileSystem = require('fs'),
+fileSystemExtensions = require('./file-system-extensions');
+
+var ROOT_MODULE_SUFIX =  '-module.js';
+
+
+var copyUtilitiesConfigs = function(yeomanGenerator) {
+  yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_.bowerrc'), '.bowerrc');
+  yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_bower.json'), 'bower.json');
+  yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_.jshintrc'), '.jshintrc');
+  yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_.gitignore'), '.gitignore');
+  yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_Gruntfile.js'), 'Gruntfile.js');
+  yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, 'sources/_.jshintrc'), path.join(fileSystemExtensions.sourcesDirectory,'.jshintrc'));
+  yeomanGenerator.template(path.join(fileSystemExtensions.templatesDirectoryPath, '_index.html'), path.join(fileSystemExtensions.sourcesDirectory, 'index.html'));
+
+  yeomanGenerator.template(path.join(fileSystemExtensions.templatesDirectoryPath, '_package.json'), 'package.json');
+  yeomanGenerator.mkdir(fileSystemExtensions.jsRootDirectoryPath);
+  yeomanGenerator.mkdir(path.join(fileSystemExtensions.sourcesDirectory, 'views'));
+};
+
+var createApplicationFiles = function(yeomanGenerator) {
+  var routingConfigTemplatePath = path.join(fileSystemExtensions.templatesDirectoryPath, 'config/routing-configuration.tmp');
+  var routingConfigPath = path.join(fileSystemExtensions.jsRootDirectoryPath, 'config/routing-configuration.js');
+  yeomanGenerator.template(routingConfigTemplatePath, routingConfigPath);
+
+  var moduleFactoryTemplatePath = path.join(fileSystemExtensions.templatesDirectoryPath, 'utilities/module-factory.tmp');
+  var moduleFactoryPath = path.join(fileSystemExtensions.jsRootDirectoryPath, 'utilities/module-factory.js');
+  yeomanGenerator.template(moduleFactoryTemplatePath, moduleFactoryPath);
+
+  var sandBoxTemplatePath = path.join(fileSystemExtensions.templatesDirectoryPath, 'utilities/sandbox.tmp');
+  var sandBoxPath = path.join(fileSystemExtensions.jsRootDirectoryPath, 'utilities/sandbox.js');
+  yeomanGenerator.copy(sandBoxTemplatePath, sandBoxPath);
+
+  var messagingBusTemplatePath = path.join(fileSystemExtensions.templatesDirectoryPath, 'utilities/messaging-bus.tmp');
+  var messagingBusPath = path.join(fileSystemExtensions.jsRootDirectoryPath, 'utilities/messaging-bus.js');
+  yeomanGenerator.copy(messagingBusTemplatePath, messagingBusPath);
+
+  var messagingBusConfigurationTemplatePath = path.join(
+    fileSystemExtensions.templatesDirectoryPath, 
+    'config/messaging-bus-configuration.tmp'
+  );
+  var messagingBusConfigurationPath = path.join(fileSystemExtensions.jsRootDirectoryPath, 'config/messaging-bus-configuration.js');
+  yeomanGenerator.copy(messagingBusConfigurationTemplatePath, messagingBusConfigurationPath);
+
+  yeomanGenerator.directory(path.join(fileSystemExtensions.templatesDirectoryPath, 'grunt-tasks-configurations'), 'grunt-tasks-configurations');
+  yeomanGenerator.directory(path.join(fileSystemExtensions.templatesDirectoryPath, 'grunt-tasks-configurations'), 'grunt-tasks-configurations');
+
+  var entryPointTemplateFilePath = path.join(fileSystemExtensions.templatesDirectoryPath, 'entry-point.tmp');
+  var entryPointDestinationFilePath = path.join(fileSystemExtensions.jsRootDirectoryPath, 'entry-point.js');
+  yeomanGenerator.template(entryPointTemplateFilePath, entryPointDestinationFilePath);
+};
+
+var createTestsFiles = function(yeomanGenerator) {
+  var testsTemplatesDirectory = path.join(fileSystemExtensions.templatesDirectoryPath, 'tests');
+  var applicationTestsDirectory = 'tests';
+
+  yeomanGenerator.directory(testsTemplatesDirectory, applicationTestsDirectory);
+};
+
+var getRequireJsModuleName = function(fileName) {
+  var baseDirectory = path.dirname(fileName);
+  var extension = path.extname(fileName);
+  var baseName = path.basename(fileName, extension);
+
+  return path.join(baseDirectory, baseName);
+};
 
 var updateModuleFilesList = function(parameters) {
   var moduleName = pluralize.plural(parameters.moduleType);
-  var rootJsDirectory = fileSystemExtensions.getPathRelativeToRootJsDirectory();
+  var rootJsDirectory = null;
+
+  try {
+    rootJsDirectory = fileSystemExtensions.getPathRelativeToRootJsDirectory();
+  } catch (err) {
+    console.error(err.toString());
+    return;
+  }
 
   var templatePath = path.join(parameters.generatorDirectory, 'templates/root-module.tmp');
-  var destinationFilePath = path.join(rootJsDirectory, moduleName + '-module.js');
+  var destinationFilePath = path.join(rootJsDirectory, moduleName + ROOT_MODULE_SUFIX);
 
   if(fileSystem.existsSync(destinationFilePath)){
     fileSystem.unlinkSync(destinationFilePath);
@@ -19,7 +90,7 @@ var updateModuleFilesList = function(parameters) {
   var exsistingModules = fileSystemExtensions.readFileTree(path.join(rootJsDirectory, moduleName));
 
   var rootModuleDependencies = exsistingModules.map(function(module) {
-    var fullFileName = module.substr(0, module.lastIndexOf('.'));
+    var fullFileName = getRequireJsModuleName(module);
     var relativeFileName = path.relative(rootJsDirectory, fullFileName);
     return '    \'' + relativeFileName + '\'';
   });
@@ -40,8 +111,6 @@ var updateModuleFilesList = function(parameters) {
 var initializeModuleType = function(parameters) {
   var pluralModuleTypeName = pluralize.plural(parameters.moduleType);
 
-  parameters.yeomanGenerator.mkdir(fileSystemExtensions.jsRootDirectoryPath);
-  parameters.yeomanGenerator.mkdir(path.join(fileSystemExtensions.jsRootDirectoryPath, 'libs/vendors'));
   parameters.yeomanGenerator.mkdir(path.join(fileSystemExtensions.jsRootDirectoryPath, pluralModuleTypeName));
 
   updateModuleFilesList({
@@ -51,49 +120,25 @@ var initializeModuleType = function(parameters) {
   });
 };
 
-var initializeApplicationConfigAndUtilities = function(parameters) {
-  parameters.yeomanGenerator.directory(path.join(fileSystemExtensions.templatesDirectoryPath, 'config'), 
-                                       path.join(fileSystemExtensions.jsRootDirectoryPath, 'config'));
-  parameters.yeomanGenerator.directory(path.join(fileSystemExtensions.templatesDirectoryPath, 'utilities'), 
-                                       path.join(fileSystemExtensions.jsRootDirectoryPath, 'utilities'));
-  parameters.yeomanGenerator.directory(path.join(fileSystemExtensions.templatesDirectoryPath, 'grunt-tasks-configurations'),
-                                       'grunt-tasks-configurations');
+var initializeApplicationStructure = function(parameters) {
+  var yeomanGenerator = parameters.yeomanGenerator;
 
-  var entryPointTemplateFilePath = path.join(__dirname, '..', 'templates/entry-point.tmp');
-  var entryPointDestinationFilePath = path.join(fileSystemExtensions.jsRootDirectoryPath, 'entry-point.js');
-  parameters.yeomanGenerator.template(entryPointTemplateFilePath, entryPointDestinationFilePath);
-
-  parameters.yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_.bowerrc'), '.bowerrc');
-  parameters.yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_bower.json'), 'bower.json');
-  parameters.yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_.jshintrc'), '.jshintrc');
-  parameters.yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_.gitignore'), '.gitignore');
-  parameters.yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_Gruntfile.js'), 'Gruntfile.js');
-  parameters.yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, 'sources/_.jshintrc'), 
-                                  path.join(fileSystemExtensions.sourcesDirectory,'.jshintrc'));
-  parameters.yeomanGenerator.template(path.join(fileSystemExtensions.templatesDirectoryPath, '_index.html'), 
-                                      path.join(fileSystemExtensions.sourcesDirectory, 'index.html'));
-
-  parameters.yeomanGenerator.template(path.join(fileSystemExtensions.templatesDirectoryPath, '_package.json'), 
-                                      'package.json');
-};
-
-var initializeApplicationInfrastructure = function(parameters) {
-  parameters.moduleTypes.forEach(function(moduleType) {
-    initializeModuleType({
-      moduleType: moduleType,
-      yeomanGenerator: parameters.yeomanGenerator
-    }); 
-  }); 
-
-  initializeApplicationConfigAndUtilities({ 
-    yeomanGenerator: parameters.yeomanGenerator
-  });
-
+  createApplicationFiles(yeomanGenerator);
+  copyUtilitiesConfigs(yeomanGenerator);
+  createTestsFiles(yeomanGenerator);
 };
 
 var removeFileFromModule = function(parameters) {
   var moduleDirectory = pluralize.plural(parameters.moduleType);
-  var rootJsDirectory = fileSystemExtensions.getPathRelativeToRootJsDirectory();
+  var rootJsDirectory = null;
+
+  try {
+    rootJsDirectory = fileSystemExtensions.getPathRelativeToRootJsDirectory();
+  } catch (err) {
+    console.error(err.toString());
+    return;
+  }
+
   var fileToDelete = path.join(rootJsDirectory, moduleDirectory, parameters.moduleName + '-' + parameters.moduleType + '.js');
 
   if(fileSystem.existsSync(fileToDelete)){
@@ -103,20 +148,33 @@ var removeFileFromModule = function(parameters) {
 
 var addFileToModule = function(parameters) {
   var moduleDirectory = pluralize.plural(parameters.moduleType); 
-  var rootJsDirectory = fileSystemExtensions.getPathRelativeToRootJsDirectory();
+  var moduleFileName = parameters.moduleName + '-' + parameters.moduleType;
+  var rootJsDirectory = null;
+
+  try {
+    rootJsDirectory = fileSystemExtensions.getPathRelativeToRootJsDirectory();
+  } catch (err) {
+    console.error(err.toString());
+    return;
+  }
+
   var templateFilePath = path.join(__dirname, '..', 'templates/regular-module.tmp');
-  var destinationFilePath = path.join(rootJsDirectory, moduleDirectory, parameters.moduleName + '-' + parameters.moduleType + '.js');
+  var destinationFilePath = path.join(rootJsDirectory, moduleDirectory, moduleFileName + '.js');
 
   parameters.yeomanGenerator.module = {
-    moduleName: parameters.moduleName
+    moduleName: parameters.moduleName,
+    requirejsModuleName: path.join(
+      moduleDirectory,
+      moduleFileName
+    )
   };
   parameters.yeomanGenerator.template(templateFilePath, destinationFilePath);
 };
 
 module.exports = {
   updateModuleFilesList: updateModuleFilesList,
-  initializeApplicationInfrastructure: initializeApplicationInfrastructure,
+  initializeApplicationStructure: initializeApplicationStructure,
+  initializeModuleType: initializeModuleType,
   addFileToModule: addFileToModule,
   removeFileFromModule: removeFileFromModule
 };
-

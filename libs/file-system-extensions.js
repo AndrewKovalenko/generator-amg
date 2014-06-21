@@ -45,20 +45,23 @@ var readFileTreeRecurcively = function(rootDirectory) {
   });
 };
 
-var getPathRelativeToRootJsDirectory = function() {
-  var prefix = '';
+var getPathRelativeToRootOfApplication = function() {
+   var prefix = '';
 
   do {
     if(fileSystem.existsSync(path.join(prefix, jsRootDirectoryPath(), 'entry-point.js'))){
-      return path.join(prefix, jsRootDirectoryPath());
+      return prefix;
     }
 
     prefix = path.join(prefix, '..');
 
   } while (path.resolve(prefix) !== '/');
 
-  return path.join(jsRootDirectoryPath());
+  throw new Error('uamg project not found.');
+};
 
+var getPathRelativeToRootJsDirectory = function() {
+  return path.join(getPathRelativeToRootOfApplication(), jsRootDirectoryPath());
 };
 
 module.exports = {
@@ -66,5 +69,5 @@ module.exports = {
   getPathRelativeToRootJsDirectory: getPathRelativeToRootJsDirectory,
   jsRootDirectoryPath: jsRootDirectoryPath(),
   sourcesDirectory: configuration.sourcesDirectory,
-  templatesDirectoryPath: getTemplatesDirectoryPath()
+  templatesDirectoryPath: getTemplatesDirectoryPath(),
 };

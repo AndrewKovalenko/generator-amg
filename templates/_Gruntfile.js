@@ -2,11 +2,22 @@
 
 var copyConfiguration = require('./grunt-tasks-configurations/copy'),
 connectConfiguration = require('./grunt-tasks-configurations/connect'),
+extend = require('extend'),
 requirejsBuildConfiguration = require('./grunt-tasks-configurations/requirejs');
 
 
-
 module.exports = function(grunt) {
+  var getPathAliases = function() {
+    global.window = {
+      define: function(callback) {
+        global.pathConfiguration = callback();
+      }
+    };
+
+    var pathAliasConfiguration = require('./sources/js/config/requirejs-path');
+    return global.pathConfiguration;
+  };
+
   var initializeGruntConfigurationVariables = function(parameters) {
     var deploymentDirectory = parameters.release ?
       'builds/release' :
@@ -58,6 +69,9 @@ module.exports = function(grunt) {
 
     grunt.task.run(runTasks);
   });
+
+  var pathAliases = getPathAliases();
+  extend(requirejsBuildConfiguration.release.options.paths, pathAliases);
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),

@@ -1,0 +1,23 @@
+(function(define) {
+  'use strict';
+
+  function Core(messageBusConfiguration){
+    this.configuration = messageBusConfiguration;
+  }
+
+  Core.prototype.send = function(messageType, messageBody) {
+    var handlersOfSentMessage = this.configuration[messageType];
+
+    if (handlersOfSentMessage) {
+      handlersOfSentMessage.forEach(function(handler){
+        handler.call(undefined, messageBody);
+      });
+    }
+  };
+
+  define(['config/messaging-bus-configuration'], function(messageBusConfiguration){
+    var core = new Core(messageBusConfiguration);
+    return core;
+  });
+
+}(window.define));

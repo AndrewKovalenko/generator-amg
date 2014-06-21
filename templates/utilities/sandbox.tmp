@@ -1,0 +1,15 @@
+(function(define){
+  'use strict';
+
+  define(['angular','utilities/messaging-bus'], 
+         function(angular, messagingBus){
+           var sandboxModule = angular.module('sandbox', []);
+
+           sandboxModule.factory('sandbox', [function(){
+             return{
+               messagingBus: messagingBus
+             };
+           }]);
+         }
+        );
+})(window.define);
