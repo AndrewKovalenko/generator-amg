@@ -5,6 +5,8 @@
 
 This is [Yeoman-based](http://yeoman.io) scaffolding tool which allows you to create and manage front-end application based on [angularjs](https://angularjs.org/) and [requirejs](http://requirejs.org/). I took [this template](https://github.com/AndrewKovalenko/AngularJs-Application-Template) as basic idea of this application archiecture.
 
+This tool provides you ability to generate well structured front-end application, basic tasks to build and run application and configured testing framework. 
+
 #####This generator is in **ALPHA TEST**! 
 **So possibly it has some bugs!** Feel free to notify me about bugs which you've found and I'll fix them ASAP.
 
@@ -46,6 +48,10 @@ This is [Yeoman-based](http://yeoman.io) scaffolding tool which allows you to cr
 |       |   └── sandbox.js
 |       └── entry-point.js
 ├── tests    
+|   ├── bootstrap-tests.js
+|   └── unit-tests
+|       ├── karma-config.js
+|       └── messaging-bus-test.js
 ├── bower.json
 ├── Gruntfile.js
 ├── package.json
@@ -68,6 +74,8 @@ and just start writing your code in js/controllers/some-controller.js
 
 `grunt run` command allows you to run your application.
 If you want to run optimized version of your application, use `grunt run --release`.
+
+To run unit-tests use `karma start tests/unit-tests/karma-config.js`
 
 
 For now *amg* can generate:
