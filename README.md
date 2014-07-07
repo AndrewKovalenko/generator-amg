@@ -3,7 +3,7 @@
 
 ## What is this?
 
-This is [Yeoman](http://yeoman.io) generator which allow you to create and manage front-end application based on [angularjs](https://angularjs.org/) and [requirejs](http://requirejs.org/). I took [this template](https://github.com/AndrewKovalenko/AngularJs-Application-Template) as basic idea of this application archiecture.
+This is [Yeoman-based](http://yeoman.io) scaffolding tool which allows you to create and manage front-end application based on [angularjs](https://angularjs.org/) and [requirejs](http://requirejs.org/). I took [this template](https://github.com/AndrewKovalenko/AngularJs-Application-Template) as basic idea of this application archiecture.
 
 #####This generator is in **ALPHA TEST**! 
 **So possibly it has some bugs!** Feel free to notify me about bugs which you've found and I'll fix them ASAP.
@@ -11,25 +11,47 @@ This is [Yeoman](http://yeoman.io) generator which allow you to create and manag
 ## Generated application structure
 ```
 .
-├── index.html
+├── builds
+|   ├── debug                             
+|   └── release
+├── grunt-tasks-configuration             
+|   ├── connect.json
+|   ├── copy.json
+|   └── requirejs.json
+├── node_modules
+├── sources
+|   ├── index.html
+|   └── js
+|       ├── controllers
+|       ├── controllers-module.js
+|       ├── directives
+|       ├── directives-module.js
+|       ├── factories
+|       ├── factories-module.js
+|       ├── filters
+|       ├── filters-module.js
+|       ├── services
+|       ├── services-module.js
+|       ├── libs
+|       |   └── vendors
+|       |       ├── angular-ui-router
+|       |       ├── angular
+|       |       └── requirejs
+|       ├── config
+|       |   ├── routing-cinfiguration.js
+|       |   └── messaging-bus-configuration.js
+|       ├── utilities
+|       |   ├── module-factory.js
+|       |   ├── messaging-bus.js
+|       |   └── sandbox.js
+|       └── entry-point.js
+├── tests    
 ├── bower.json
-└── js
-    ├── controllers
-    ├── controllers-module.js
-    ├── directives
-    ├── directives-module.js
-    ├── factories
-    ├── factories-module.js
-    ├── filters
-    ├── filters-module.js
-    ├── services
-    ├── services-module.js
-    ├── libs
-    ├── config
-    |   └── routing-cinfiguration.js
-    ├── utilities
-    |   └── module-factory.js
-    └── entry-point.js
+├── Gruntfile.js
+├── package.json
+├── .bowerrc
+├── .jshintrc
+└── .gitignore
 ```
 #### How to use?
 
@@ -43,6 +65,10 @@ To add new controller type in console `yo amg:add controller some`
 and just start writing your code in js/controllers/some-controller.js
 
 `yo amg:remove controller some` allows you to delete your exsisting controller.
+
+`grunt run` command allows you to run your application.
+If you want to run optimized version of your application, use `grunt run --release`.
+
 
 For now *amg* can generate:
 * controllers
