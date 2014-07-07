@@ -25,11 +25,11 @@ var copyUtilitiesConfigs = function(yeomanGenerator) {
 var createApplicationFiles = function(yeomanGenerator) {
   var routingConfigTemplatePath = path.join(fileSystemExtensions.templatesDirectoryPath, 'config/routing-configuration.tmp');
   var routingConfigPath = path.join(fileSystemExtensions.jsRootDirectoryPath, 'config/routing-configuration.js');
-  yeomanGenerator.template(routingConfigTemplatePath, routingConfigPath);
+  yeomanGenerator.copy(routingConfigTemplatePath, routingConfigPath);
 
   var moduleFactoryTemplatePath = path.join(fileSystemExtensions.templatesDirectoryPath, 'utilities/module-factory.tmp');
   var moduleFactoryPath = path.join(fileSystemExtensions.jsRootDirectoryPath, 'utilities/module-factory.js');
-  yeomanGenerator.template(moduleFactoryTemplatePath, moduleFactoryPath);
+  yeomanGenerator.copy(moduleFactoryTemplatePath, moduleFactoryPath);
 
   var sandBoxTemplatePath = path.join(fileSystemExtensions.templatesDirectoryPath, 'utilities/sandbox.tmp');
   var sandBoxPath = path.join(fileSystemExtensions.jsRootDirectoryPath, 'utilities/sandbox.js');

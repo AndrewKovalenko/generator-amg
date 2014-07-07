@@ -6,7 +6,7 @@
     };
   };
 
-  define('<%= module.requirejsModuleName %>', function(){
+  define(function(){
     return {
       name: '<%= module.moduleName %>', 
       body: ['$scope', body]

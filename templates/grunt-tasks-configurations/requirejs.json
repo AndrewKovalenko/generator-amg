@@ -5,16 +5,16 @@
 
       "paths":{
         "angular":"libs/vendors/angular/angular",
-        "angularUiRouter": "libs/vendors/angular-ui-router/release/angular-ui-router"
+        "angular_ui_router": "libs/vendors/angular-ui-router/release/angular-ui-router"
       },
 
       "shim":{
         "angular":{
           "exports": "angular"
         },
-        "angular-ui-router": {
+        "angular_ui_router": {
           "deps":["angular"],
-          "exports": "angular-ui-router"
+          "exports": "angular_ui_router"
         }
       },
       "exclude": ["libs/vendors/requirejs/require.js"],

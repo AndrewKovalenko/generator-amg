@@ -1,8 +1,8 @@
 (function(define){
   'use strict';
 
-  define('<%= module.moduleName %>-module',
-         [
+  define(
+    [
     'utilities/module-factory'<%= module.dependencies %>
   ], 
 

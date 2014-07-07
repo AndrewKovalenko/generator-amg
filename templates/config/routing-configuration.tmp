@@ -1,6 +1,6 @@
 (function(define){
   'use strict';
-  define('<%= applicationName %>/config/routing-configuration', function(){
+  define(function(){
     return ['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');
     }];
