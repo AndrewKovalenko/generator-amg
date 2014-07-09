@@ -1,0 +1,9 @@
+{
+  "all": {
+    "files" : "sources/**",
+    "tasks" : ["build"],
+    "options" : {
+      "reload" : true
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "options": {
+    "base": "sources",
+    "module": "application-views"
+  },
+  "main": {
+    "src": ["sources/views/**/*.html"],
+    "dest": "<%= deploymentDirectory %>/web/js/views.js"
+  }
+}

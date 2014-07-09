@@ -2,13 +2,11 @@
   "server": {
     "options" : {
       "port": 3000,
-      "base": "<%= webServerRootDirectory %>",
+      "base": "<%= deploymentDirectory %>/web",
       "debug": true,
-      "keepalive": true,
       "open": { 
         "target": "http://127.0.0.1:3000/"
       }
     }
   }
 }
-

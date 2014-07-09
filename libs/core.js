@@ -13,9 +13,9 @@ var copyUtilitiesConfigs = function(yeomanGenerator) {
   yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_bower.json'), 'bower.json');
   yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_.jshintrc'), '.jshintrc');
   yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_.gitignore'), '.gitignore');
-  yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, '_Gruntfile.js'), 'Gruntfile.js');
   yeomanGenerator.copy(path.join(fileSystemExtensions.templatesDirectoryPath, 'sources/_.jshintrc'), path.join(fileSystemExtensions.sourcesDirectory,'.jshintrc'));
   yeomanGenerator.template(path.join(fileSystemExtensions.templatesDirectoryPath, '_index.html'), path.join(fileSystemExtensions.sourcesDirectory, 'index.html'));
+  yeomanGenerator.template(path.join(fileSystemExtensions.templatesDirectoryPath, '_Gruntfile.js'), 'Gruntfile.js');
 
   yeomanGenerator.template(path.join(fileSystemExtensions.templatesDirectoryPath, '_package.json'), 'package.json');
   yeomanGenerator.mkdir(fileSystemExtensions.jsRootDirectoryPath);
