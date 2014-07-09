@@ -17,8 +17,7 @@
       "src": ["index.html", 
         "js/libs/vendors/requirejs/require.js", 
         "js/libs/vendors/angular/angular",
-        "js/libs/vendors/angular-ui-router/release/angular-ui-router",
-        "views/**"
+        "js/libs/vendors/angular-ui-router/release/angular-ui-router"
       ],
       "dest": "<%= deploymentDirectory %>/web"
   }]
