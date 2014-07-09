@@ -3,9 +3,8 @@
 
 ## What is this?
 
-This is [Yeoman-based](http://yeoman.io) scaffolding tool which allows you to create and manage front-end application based on [angularjs](https://angularjs.org/) and [requirejs](http://requirejs.org/). I took [this template](https://github.com/AndrewKovalenko/AngularJs-Application-Template) as basic idea of this application archiecture.
-
-This tool provides you ability to generate well structured front-end application, basic tasks to build and run application and configured testing framework. 
+Briefly, this is console tool "kinda rails scaffolding", which allows you to create and manage [angularjs](https://angularjs.org/) application with [requirejs](http://requirejs.org/) as top-level dependency management tool. 
+Top-level means, that this tool use [requirejs](http://requirejs.org/) for managing dependecies between files but not angular module dependencies. 
 
 #####This generator is in **ALPHA TEST**! 
 **So possibly it has some bugs!** Feel free to notify me about bugs which you've found and I'll fix them ASAP.
@@ -59,21 +58,43 @@ This tool provides you ability to generate well structured front-end application
 ├── .jshintrc
 └── .gitignore
 ```
+
+#### Why do you need it?
+
+If you don't want to spend time on creating infrastructure of your front-end application but want to concentrate on development of domain features, this tool will do almost all routine work for you.
+
+##### Features
+
+* generates good-structured application
+* provides configurations for grunt tasks to *build* and *run* generated application "from the box"
+* provides *debug* and *release* mode of building/running
+* provides generator to automaticaly add controller/directive/factory and so on to your app
+* automatically updates dependencies for new controllers/directives/factories etc.
+* provides messaging-bus to comunicate between different modules of your application
+* provides configuration for testing framework and working examples of unot-tests
+
 #### How to use?
 
 1. Install [yeoman](http://yeoman.io/) `$ npm install -g yo`
 2. Install *amg* `$ npm install -g generator-amg`
-2. Create directory for your angular application `mkdir someApp`
-2. Create amg application `cd someApp && yo amg`
-3. Enter application name
+3. Create directory for your angular application `mkdir someApp`
+4. Create amg application `cd someApp && yo amg`
+5. Enter application name
 
-To add new controller type in console `yo amg:add controller some`
-and just start writing your code in js/controllers/some-controller.js
+**Done!!!** Now you can run your app using `grunt run`.
+If you want to add *controller, factory, directive etc.* to your app,
+use `yo amg:add *<controller, directive, factory, ...>* *<name>*`.
 
-`yo amg:remove controller some` allows you to delete your exsisting controller.
+*Example:*
+`yo amg:add controller home` will generate new file `sources/js/controllers/home-controller.js`
+and add *requirejs* dependency for it to `sources/js/controllers-module.js`.
+
+`yo amg:remove controller home` will remove *home-controller.js* and it's dependency on 
+`sources/js/controllers-module.js`.
+
 
 `grunt run` command allows you to run your application.
-If you want to run optimized version of your application, use `grunt run --release`.
+If you want to run optimized version of your application(bundled and uglified), use `grunt run --release`.
 
 To run unit-tests use `karma start tests/unit-tests/karma-config.js`
 
