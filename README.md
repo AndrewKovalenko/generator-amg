@@ -17,6 +17,8 @@ Top-level means, that this tool use [requirejs](http://requirejs.org/) for manag
 |   └── release
 ├── grunt-tasks-configuration             
 |   ├── connect.json
+|   ├── html2js.json
+|   ├── watch.json
 |   ├── copy.json
 |   └── requirejs.json
 ├── node_modules
@@ -98,6 +100,19 @@ If you want to run optimized version of your application(bundled and uglified), 
 
 To run unit-tests use `karma start tests/unit-tests/karma-config.js`
 
+#### Application build process
+##### Debug mode
+1. Copy all *.js files to `builds/debug/web/js`
+2. Use [grunt-html2js](https://github.com/karlgoldstein/grunt-html2js) to optimize views downloading process
+3. Run *connect web server*
+4. Run *watch* task, to rebuild application, if sources changed.
+
+##### Release mode
+1. Perform 1 and 2 step from **Debug mode building process**
+2. Use [grunt-contrib-requirejs](https://github.com/gruntjs/grunt-contrib-requirejs) to build *requirejs* application.
+3. Put built, bundled and minified application to `builds/release/web/js` 
+4. Run *connect web server*
+5. Run *watch* task, to rebuild application, if sources changed
 
 For now *amg* can generate:
 * controllers
